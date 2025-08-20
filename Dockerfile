@@ -12,7 +12,7 @@ ADD . /app
 RUN pip install -r requirements.txt
 
 # expose port
-EXPOSE 5000
+EXPOSE 80
 
 # run application
 CMD ["python", "app.py"]
