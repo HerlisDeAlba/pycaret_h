@@ -61,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: pycareth.azurecr.io/${{ env.REPO }}:${{ github.sha }}
+          tags: pycareth.azurecr.io/pycaret-insurance
           file: ./Dockerfile
 
   deploy:
