@@ -25,15 +25,15 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: pycareth.azurecr.io/
-          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3ED2D138AE412E9D175EEA53F45482 }}
-          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_1E1EFD0520F64AE5A5DF0B9C0190A19A }}
+          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8532816413FD47CF8BD25F46DB43CE09 }}
+          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_D86CD7707A234E2C87A7AA9853B582C6 }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: pycareth.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3ED2D138AE412E9D175EEA53F45482 }}/herlisdealba/pycaret_h:${{ github.sha }}
+          tags: pycareth.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8532816413FD47CF8BD25F46DB43CE09 }}/herlisdealba/pycaret_h:${{ github.sha }}
           file: ./Dockerfile
 
   deploy:
@@ -50,5 +50,5 @@ jobs:
         with:
           app-name: 'pycaret-insurance'
           slot-name: 'Production'
-          images: 'pycareth.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3ED2D138AE412E9D175EEA53F45482 }}/herlisdealba/pycaret_h:${{ github.sha }}'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BD5CD76DDA6844A59BD7DEA6E2634B4D }}
+          images: 'pycareth.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_8532816413FD47CF8BD25F46DB43CE09 }}/herlisdealba/pycaret_h:${{ github.sha }}'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_860C776AE7B9427CA765081ACCB106BC }}
