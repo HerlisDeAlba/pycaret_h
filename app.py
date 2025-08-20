@@ -7,7 +7,7 @@ import numpy as np
 app = Flask(__name__)
 
 model = load_model('deployment_20231111')
-cols = ['age', 'sex', 'bmi', 'children', 'smoker', 'region']
+cols = ['age', 'sex', 'bmi', 'children', 'smoker', 'region','Salary']
 
 @app.route('/')
 def home():
@@ -37,3 +37,4 @@ def predict_api():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
+
