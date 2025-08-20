@@ -1,0 +1,54 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - pycaret-insurance
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to container registry
+        uses: docker/login-action@v2
+        with:
+          registry: pycareth.azurecr.io/
+          username: ${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3ED2D138AE412E9D175EEA53F45482 }}
+          password: ${{ secrets.AZUREAPPSERVICE_CONTAINERPASSWORD_1E1EFD0520F64AE5A5DF0B9C0190A19A }}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: pycareth.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3ED2D138AE412E9D175EEA53F45482 }}/herlisdealba/pycaret_h:${{ github.sha }}
+          file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    
+    needs: build
+    
+
+    steps:
+      
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'pycaret-insurance'
+          slot-name: 'Production'
+          images: 'pycareth.azurecr.io/${{ secrets.AZUREAPPSERVICE_CONTAINERUSERNAME_CB3ED2D138AE412E9D175EEA53F45482 }}/herlisdealba/pycaret_h:${{ github.sha }}'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BD5CD76DDA6844A59BD7DEA6E2634B4D }}
